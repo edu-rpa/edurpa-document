@@ -1,6 +1,5 @@
 import cv2
 import json
-import argparse
 from robot.api import logger
 from robot.api.deco import keyword, not_keyword
 
