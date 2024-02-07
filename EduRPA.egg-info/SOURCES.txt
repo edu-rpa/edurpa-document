@@ -1,0 +1,7 @@
+LICENSE
+README.md
+setup.py
+EduRPA.egg-info/PKG-INFO
+EduRPA.egg-info/SOURCES.txt
+EduRPA.egg-info/dependency_links.txt
+EduRPA.egg-info/top_level.txt
