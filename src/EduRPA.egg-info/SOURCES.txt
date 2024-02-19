@@ -10,4 +10,5 @@ src/EduRPA/transform.py
 src/EduRPA.egg-info/PKG-INFO
 src/EduRPA.egg-info/SOURCES.txt
 src/EduRPA.egg-info/dependency_links.txt
+src/EduRPA.egg-info/requires.txt
 src/EduRPA.egg-info/top_level.txt

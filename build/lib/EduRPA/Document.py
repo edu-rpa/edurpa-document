@@ -7,7 +7,7 @@ import json
 from openpyxl import Workbook
 from datetime import datetime
 
-from transform import perspective_transform
+from src.EduRPA.transform import perspective_transform
 
 class DocumentKeywords:
     def __init__(self, lang, performance, *args, **kwargs):
