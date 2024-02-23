@@ -9,7 +9,7 @@ from datetime import datetime
 
 from src.EduRPA.transform import perspective_transform
 
-class DocumentKeywords:
+class DocumentAutomation:
     def __init__(self, lang, performance, *args, **kwargs):
         cfg = Cfg.load_config_from_name("vgg_seq2seq")
         cfg["device"] = "cpu"
@@ -68,6 +68,7 @@ class DocumentKeywords:
         # extract data from images
         return self.extract(extracted_labeled_images)
     
+    # TODO: update this keyword
     @keyword("Create Grade Report File", types={'correct_answer': dict, 'actual_answers': list[dict], 'file_names': list})
     def create_grade_report_file(self, correct_answer, actual_answers, file_names):
         # Initialize report file
