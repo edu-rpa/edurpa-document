@@ -1,3 +1,3 @@
-from src.EduRPA.Document import DocumentAutomation
+from src.EduRPA.DocumentAutomation import DocumentAutomation
 
 doc = DocumentAutomation("vi", "fast")

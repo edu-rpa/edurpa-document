@@ -7,7 +7,7 @@ import json
 from openpyxl import Workbook
 from datetime import datetime
 
-from src.EduRPA.transform import perspective_transform
+from .transform import perspective_transform, resize_image
 
 class DocumentAutomation:
     def __init__(self, lang, performance, *args, **kwargs):
@@ -35,33 +35,43 @@ class DocumentAutomation:
         self.predictor = self.config[lang][performance]["predictor"]
 
     @not_keyword
-    def image_preprocessing(self, image):
-        processed_image = perspective_transform(image)
+    def image_preprocessing(self, image, template):
+        width = template['size']['width']
+        height = template['size']['height']
+        if template['isScanned'] == True:
+            print("Performing resize", template)
+            processed_image = resize_image(image, [width, height])
+        else:
+            print("Performing perspective transformation", template)
+            processed_image = perspective_transform(image, [width, height])
         return processed_image   
     
     @not_keyword
     def extract(self, labeled_images):
         results = {}
         for label, image in labeled_images.items():
-            print("Predict Image", label)
+            print("Predicting label", label)
             prediction = self.predictor.predict(Image.fromarray(image))
             results[label] = prediction
 
         return results
     
-    @keyword("Extract Data From Document")
+    @keyword("Extract Data From Document", types={'file_name': 'str', 'template': 'str'})
     def extract_data_from_document(self, file_name, template):
         if type (template) is str:
             template = json.loads(template)
         
         # read and preprocess document (image type)
         document = cv2.imread(file_name)
-        document = self.image_preprocessing(document)
+        document = self.image_preprocessing(document, template)
 
         # extract images from document
         extracted_labeled_images = {}
-        for key in template.keys():
-            x1, y1, x2, y2 = list(template[key])
+        for key in template['dataTemplate'].keys():
+            x1 = int(template['dataTemplate'][key]['left'])
+            x2 = int(template['dataTemplate'][key]['right'])
+            y1 = int(template['dataTemplate'][key]['top'])
+            y2 = int(template['dataTemplate'][key]['bottom'])
             extracted_labeled_images[key] = []
             extracted_labeled_images[key] = document[y1:y2, x1:x2]
 
