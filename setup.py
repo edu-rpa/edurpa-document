@@ -13,8 +13,8 @@ with pathlib.Path('./requirements.txt').open() as requirements_txt:
         ]
 
 setuptools.setup(
-    name="EduRPA",
-    version="0.0.2",
+    name="edurpa-document",
+    version="0.0.1",
     author="david",
     author_email="davidhuynh0222@gmail.com",
     description="education librabry for RPA",
