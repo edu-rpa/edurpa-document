@@ -1,0 +1,14 @@
+LICENSE
+README.md
+pyproject.toml
+setup.py
+src/EduRPA/__init__.py
+src/EduRPA/Document/DocumentAutomation.py
+src/EduRPA/Document/__init__.py
+src/EduRPA/Document/transform.py
+src/edurpa_document.egg-info/PKG-INFO
+src/edurpa_document.egg-info/SOURCES.txt
+src/edurpa_document.egg-info/dependency_links.txt
+src/edurpa_document.egg-info/requires.txt
+src/edurpa_document.egg-info/top_level.txt
+tests/test_document.py
