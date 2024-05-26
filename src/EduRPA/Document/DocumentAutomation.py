@@ -56,7 +56,7 @@ class DocumentAutomation:
 
         return results
     
-    @keyword("Extract Data From Document", types={'file_name': 'str', 'template': 'str'})
+    @keyword("Extract Data From Document", types={'file_name': 'str', 'template': 'dict'})
     def extract_data_from_document(self, file_name, template):
         if type (template) is str:
             template = json.loads(template)
