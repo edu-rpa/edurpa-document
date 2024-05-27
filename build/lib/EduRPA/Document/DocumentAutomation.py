@@ -6,11 +6,13 @@ import cv2
 import json
 from openpyxl import Workbook
 from datetime import datetime
-
 from .transform import perspective_transform, resize_image
-
 class DocumentAutomation:
-    def __init__(self, lang, performance, *args, **kwargs):
+    def __init__(self, lang, performance, **kwargs):
+        if kwargs["dryrun"]:
+            # If running dryrun, ignore initialization
+            return
+        
         cfg = Cfg.load_config_from_name("vgg_seq2seq")
         cfg["device"] = "cpu"
         vgg_seq2seq = Predictor(cfg)
@@ -56,7 +58,7 @@ class DocumentAutomation:
 
         return results
     
-    @keyword("Extract Data From Document", types={'file_name': 'str', 'template': 'str'})
+    @keyword("Extract Data From Document", types={'file_name': 'str', 'template': 'dict'})
     def extract_data_from_document(self, file_name, template):
         if type (template) is str:
             template = json.loads(template)
