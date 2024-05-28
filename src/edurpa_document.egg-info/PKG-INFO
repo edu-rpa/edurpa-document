@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: edurpa-document
-Version: 0.0.5
+Version: 0.0.8
 Summary: education librabry for RPA
 Home-page: https://github.com/edu-rpa/edu-rpa-library
 Author: david
@@ -32,7 +32,6 @@ Requires-Dist: numpy==1.26.2
 Requires-Dist: opencv-python==4.8.1.78
 Requires-Dist: openpyxl==3.1.2
 Requires-Dist: packaging==23.2
-Requires-Dist: Pillow==9.5.0
 Requires-Dist: prefetch-generator==1.0.1
 Requires-Dist: pyparsing==3.1.1
 Requires-Dist: PySocks==1.7.1
@@ -48,6 +47,8 @@ Requires-Dist: tifffile==2023.9.26
 Requires-Dist: tqdm==4.66.1
 Requires-Dist: vietocr==0.3.12
 Requires-Dist: zipp==3.17.0
+Requires-Dist: editdistance
+Requires-Dist: Pillow==9.5.0
 
 # EduRPA
 EduRPA is an robotframework librabry that support feature in education field

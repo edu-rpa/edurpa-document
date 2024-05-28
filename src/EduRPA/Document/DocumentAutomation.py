@@ -7,11 +7,17 @@ import json
 from openpyxl import Workbook
 from datetime import datetime
 from .transform import perspective_transform, resize_image
+import string
+import unicodedata
+import editdistance
+import re
 class DocumentAutomation:
-    def __init__(self, lang, performance, **kwargs):
+    def __init__(self, lang, performance, tolerate, **kwargs):
         if kwargs["dryrun"]:
             # If running dryrun, ignore initialization
             return
+        
+        self.tolerate = tolerate
         
         cfg = Cfg.load_config_from_name("vgg_seq2seq")
         cfg["device"] = "cpu"
@@ -80,6 +86,21 @@ class DocumentAutomation:
         # extract data from images
         return self.extract(extracted_labeled_images)
     
+    @not_keyword
+    def evaluate_answer(self, answer, correct):
+        pd = unicodedata.normalize("NFKD", answer).encode("ASCII", "ignore").decode("ASCII")
+        gt = unicodedata.normalize("NFKD", correct).encode("ASCII", "ignore").decode("ASCII")
+        
+        # Remove punctuation and special characters
+        pd = re.sub(r'[.]', '', pd)
+        gt = re.sub(r'[.]', '', gt)
+        
+        pd_cer, gt_cer = list(pd.lower()), list(gt.lower())
+        dist = editdistance.eval(pd_cer, gt_cer)
+        cer = dist / (max(len(pd_cer), len(gt_cer)))
+        
+        return cer < self.tolerate
+    
     # TODO: update this keyword
     @keyword("Create Grade Report File", types={'correct_answer': dict, 'actual_answers': list[dict], 'file_names': list})
     def create_grade_report_file(self, correct_answer, actual_answers, file_names):
@@ -106,7 +127,7 @@ class DocumentAutomation:
             # Write data rows
             total_score = 0
             for (label , correct_answer_label, actual_answer_label) in zip(correct_answer.keys(), correct_answer.values(), actual_answer.values()):
-                is_correct = correct_answer_label == actual_answer_label
+                is_correct = self.evaluate_answer(actual_answer_label, correct_answer_label)
                 row = [label, actual_answer_label, correct_answer_label, is_correct]
                 sheet.append(row)
                 
